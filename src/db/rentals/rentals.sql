@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS `project_rentals`;
-CREATE DATABASE `project_rentals`;
-USE `project_rentals`;
+DROP DATABASE IF EXISTS `rentals`;
+CREATE DATABASE `rentals`;
+USE `rentals`;
 
 SET NAMES utf8 ;
 SET character_set_client = utf8mb4 ;
