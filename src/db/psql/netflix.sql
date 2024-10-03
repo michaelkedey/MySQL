@@ -1,9 +1,9 @@
 -- Drop and create the database
-DROP DATABASE IF EXISTS rentals;
-CREATE DATABASE rentals;
+DROP DATABASE IF EXISTS netflix;
+CREATE DATABASE netflix;
 
 -- Connect to the database
-\c rentals;
+\c netflix;
 
 -- Set character encoding
 SET NAMES 'utf8';
@@ -30,7 +30,10 @@ INSERT INTO movies (movie_id, title, director, genre, release_year) VALUES
     (7, 'double_generation', 'bella_bello', 'romantic_drama', '1996-03-07'),
     (8, 'paulie', 'michael_kedey', 'erotica', '2020-04-07'),
     (9, 'road_of_gold', 'zingaro', 'romantic_drama', '2015-10-04'),
+	
     (10, 'men_who_built_britain', 'jon parker', 'drama', '1999-03-10');
+	(11, 'girls_who_are_bad',  'carter mars', 'comdedy','2021-02-10');
+	
 
 -- Drop and create the subscribers table
 DROP TABLE IF EXISTS subscribers;
@@ -55,6 +58,7 @@ INSERT INTO subscribers (subscriber_id, name, email, subscription_plan, subscrip
     (8, 'bridget_zen', 'bribaby@gmail.com', 'platinum', '2004-03-04'),
     (9, 'jane_afi', 'jas@gmail.com', 'platinum', '2020-03-04'),
     (10, 'nkiru_wathiongo', 'nkiwa@gmail.com', 'platinum', '2023-03-04');
+	(11, 'lord_barn', 'genny@gmail.com', 'platinum', '2023-02-03');
 
 -- Drop and create the movie_rentals table
 DROP TABLE IF EXISTS movie_rentals;
@@ -86,6 +90,7 @@ INSERT INTO movie_rentals (rental_id, movie_id, subscriber_id, rental_date, retu
     (13, 5, 7, '2022-03-04', '2022-03-11'),
     (14, 9, 4, '2016-03-03', '2016-03-13'),
     (15, 10, 6, '2019-07-11', '2019-07-17');
+	(17, 7, 2, '2021-07-11', '2021-07-18');
 
 -- Drop and create procedures
 DROP FUNCTION IF EXISTS add_movie(INT, VARCHAR, VARCHAR, VARCHAR, DATE);
