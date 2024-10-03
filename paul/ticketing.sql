@@ -48,6 +48,7 @@ INSERT INTO passengers (name, contact_number, email) VALUES
 ('evans_osei', '0236708123', 'eosei@gmail.com'),
 ('enoch_odartey_ameyaw', '0708658163', 'odartey@gmail.com');
 ('paulisreal', '0541014222', 'odartey@gmail.com');
+('magisreal', '0542314222', 'man@gmail.com');
 
 -- Create bookings table
 DROP TABLE IF EXISTS bookings;
@@ -69,6 +70,7 @@ INSERT INTO bookings (passenger_id, flight_id, date_of_booking, seat_number, fli
 (2, 10, '2023-04-05', 232, '2023-09-08'),
 (4, 1, '2023-12-11', 34, '2023-12-17'),
 (1, 5, '2023-04-05', 232, '2023-09-08');
+(1, 6, '2023-04-05', 232, '2023-09-08');
 (1, 6, '2023-04-05', 232, '2023-09-08');
 
 -- Functions to handle procedures
