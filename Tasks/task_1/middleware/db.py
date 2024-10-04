@@ -11,3 +11,11 @@ def get_db_connection():
         password="password",  # Replace with your PostgreSQL password
     )
     return conn
+
+def insert_task(title, description):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("CALL insert_task(%s, %s);", (title, description))  # Calling the stored procedure
+    conn.commit()  # Commit the transaction
+    cursor.close()
+    conn.close()
