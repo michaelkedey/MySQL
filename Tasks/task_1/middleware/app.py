@@ -1,5 +1,5 @@
 from flask import Flask, abort, jsonify, request
-from middleware.db import update_task, fetch_all_tasks, insert_task
+from middleware.db import update_task, fetch_all_tasks, delete_completed_tasks, insert_task
 
 app = Flask(__name__)
 
@@ -45,6 +45,16 @@ def get_all():
         return jsonify({'tasks': tasks}), 200
     except Exception as e:
         return jsonify({'error ':str(e)}), 400
+    
+@app.route('/task/delete/<int:id>', methods=['POST'])
+def delete_task():
+    try: 
+
+        delete_completed_tasks()
+        return 200
+    except Exception as e: 
+        return jsonify({'error ':str(e)}), 400
+
 
 
 if __name__ == "__main__":
