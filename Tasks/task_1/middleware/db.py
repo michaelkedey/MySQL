@@ -13,17 +13,14 @@ def get_db_connection():
         )
         return conn
     except psycopg2.DatabaseError as e:
-        print(f"Database connection error: {e}")
-        return None
+        raise e
+        
 
 
 def update_task(task_id, title, description, done):
     conn = get_db_connection()
-    if conn is None:
-        print("Failed to connect to the database.")
-        return
-    cursor = conn.cursor()
     try:
+        cursor = conn.cursor()
         cursor.execute(
             "UPDATE tasks SET title = %s, description = %s, done = %s WHERE id = %s;",
             (title, description, done, task_id),
@@ -37,16 +34,15 @@ def update_task(task_id, title, description, done):
 
 
 def fetch_all_tasks():
-    conn = get_db_connection()
-    if not conn:
-        print('Failed to connect to the database')
+
     try:
+        conn = get_db_connection()
         cursor = conn.cursor(cursor_factory=RealDictCursor)
+
         cursor.execute("SELECT * FROM get_all_tasks();")
         tasks = cursor.fetchall()  # Fetch all rows
-        return tasks
-    except psycopg2.Error as e:
-        print(f'Error updating tacsk: {e}')
-    finally:
         cursor.close()
         conn.close()
+        return tasks
+    except psycopg2.Error as e:
+        raise e

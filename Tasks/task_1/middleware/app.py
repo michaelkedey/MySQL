@@ -13,23 +13,27 @@ def update(id):
 
 @app.route('/')
 def get_all():
-    # tasks = fetch_all_tasks()
-    tasks = [{
-        'id': 1,
-        'title': 'Go to Work',
-        'description': 'I have to work for a living'
-    },
-    {
-        'id': 2,
-        'title': 'Go to Work',
-        'description': 'I have to work for a living'
-    },
-    {
-        'id': 3,
-        'title': 'Go to Work',
-        'description': 'I have to work for a living'
-    }]
-    return jsonify({'tasks': tasks}), 200
+    try:
+        # tasks = [{
+        #     'id': 1,
+        #     'title': 'Go to Work',
+        #     'description': 'I have to work for a living'
+        # },
+        # {
+        #     'id': 2,
+        #     'title': 'Go to Work',
+        #     'description': 'I have to work for a living'
+        # },
+        # {
+        #     'id': 3,
+        #     'title': 'Go to Work',
+        #     'description': 'I have to work for a living'
+        # }]
+        tasks = fetch_all_tasks()
+
+        return jsonify({'tasks': tasks}), 200
+    except Exception as e:
+        return jsonify({'error ':str(e)}), 400
 
 
 if __name__ == "__main__":
