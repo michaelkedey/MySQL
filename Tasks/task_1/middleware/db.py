@@ -16,6 +16,19 @@ def get_db_connection():
         raise e
         
 
+def insert_task(title, description):
+    conn = get_db_connection()
+    if not conn:
+        print('Failed to connect to the database')
+    try:
+        cursor = conn.cursor()
+        cursor.execute("CALL insert_task(%s, %s);", (title, description))  # Calling the stored procedure
+        conn.commit()
+        cursor.close()
+        conn.close()
+    except psycopg2.Error as e:
+        raise e    
+
 
 def update_task(task_id, title, description, done):
     conn = get_db_connection()
@@ -26,12 +39,10 @@ def update_task(task_id, title, description, done):
             (title, description, done, task_id),
         )
         conn.commit()
-    except psycopg2.Error as e:
-        print(f"Error updating task: {e}")
-    finally:
         cursor.close()
         conn.close()
-
+    except psycopg2.Error as e:
+        raise e
 
 def fetch_all_tasks():
 
