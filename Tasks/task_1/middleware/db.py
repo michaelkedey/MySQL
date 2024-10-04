@@ -46,3 +46,16 @@ def fetch_all_tasks():
         return tasks
     except psycopg2.Error as e:
         raise e
+
+
+def delete_completed_tasks():
+    try: 
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("CALL delete_completed_tasks();")
+        conn.commit()  # Commit the transaction
+        cursor.close()
+        conn.close()
+    except Exception as e:
+        raise e
+    
