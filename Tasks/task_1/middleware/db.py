@@ -24,12 +24,10 @@ def insert_task(title, description):
         cursor = conn.cursor()
         cursor.execute("CALL insert_task(%s, %s);", (title, description))  # Calling the stored procedure
         conn.commit()
-    except psycopg2.Error as e:
-        print(f'Error updating tacsk: {e}')
-    finally:
         cursor.close()
         conn.close()
-    
+    except psycopg2.Error as e:
+        raise e    
 
 
 def update_task(task_id, title, description, done):
@@ -41,12 +39,10 @@ def update_task(task_id, title, description, done):
             (title, description, done, task_id),
         )
         conn.commit()
-    except psycopg2.Error as e:
-        print(f"Error updating task: {e}")
-    finally:
         cursor.close()
         conn.close()
-
+    except psycopg2.Error as e:
+        raise e
 
 def fetch_all_tasks():
 
