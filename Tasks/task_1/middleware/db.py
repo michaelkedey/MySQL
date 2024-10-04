@@ -34,3 +34,19 @@ def update_task(task_id, title, description, done):
     finally:
         cursor.close()
         conn.close()
+
+
+def fetch_all_tasks():
+    conn = get_db_connection()
+    if not conn:
+        print('Failed to connect to the database')
+    try:
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+        cursor.execute("SELECT * FROM get_all_tasks();")
+        tasks = cursor.fetchall()  # Fetch all rows
+        return tasks
+    except psycopg2.Error as e:
+        print(f'Error updating tacsk: {e}')
+    finally:
+        cursor.close()
+        conn.close()
