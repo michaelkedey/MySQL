@@ -9,7 +9,7 @@
     - Postgres
 
 - Middleware:
-    - Set up a RESTful API using Node.js
+    - Set up a RESTful API using Python
         - Endpoints:
             - GET /tasks: Retrieve all tasks.
             - POST /tasks: Create a new task.
