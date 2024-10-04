@@ -1,14 +1,25 @@
-from flask import Flask, abort, jsonify
-from middleware.db import update_task, fetch_all_tasks
+from flask import Flask, abort, jsonify, request
+from middleware.db import update_task, fetch_all_tasks, insert_task
 
 app = Flask(__name__)
 
 
-@app.route("/api/update/<int:id>/", strict_slashes=True)
+@app.route("/update/<int:id>/", strict_slashes=True)
 def update(id):
     if not id:
         return jsonify({"error": "id is required"}), 400
     cursor = update_task(id)
+
+
+@app.route('/insert/', methods=['POST'])
+def add_task():
+    title = request.form['title']
+    description = request.form.get('description', '')
+    try:
+        insert_task(title, description)  # Calls the PostgreSQL procedure to insert a task
+        return jsonify({"Data inserted successfully"}), 200
+    except Exception as e:
+        return jsonify({'error ':str(e)}), 400
 
 
 @app.route('/')
