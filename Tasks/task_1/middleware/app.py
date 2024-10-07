@@ -1,5 +1,5 @@
 from flask import Flask, abort, jsonify, request
-from middleware.db import update_task, fetch_all_tasks, insert_task, get_task_by_id, delete_task
+from db import update_task, fetch_all_tasks, insert_task, get_task_by_id, delete_task_by_id
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -48,13 +48,13 @@ def get_all():
     except Exception as e:
         return jsonify({'error ':str(e)}), 400
     
-@app.route('/task/delete/<int:id>', methods=['POST'])
-def delete_task():
-    try: 
-        delete_task()
-        return 200
-    except Exception as e: 
-        return jsonify({'error ':str(e)}), 400
+# @app.route('/task/delete/<int:id>', methods=['POST'])
+# def delete_task():
+#     try: 
+#         delete_task_by_id()
+#         return 200
+#     except Exception as e: 
+#         return jsonify({'error ':str(e)}), 400
 
 
 
@@ -68,7 +68,7 @@ def get_task(id):
 
 @app.route('/delete-task/<int:id>', methods=['DELETE'])
 def delete_task(id):
-    delete_task(id)  # Call PostgreSQL delete function
+    delete_task_by_id(id)  # Call PostgreSQL delete function
     return jsonify({'message': 'Task deleted successfully'})
 
 if __name__ == "__main__":

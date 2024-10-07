@@ -102,7 +102,7 @@ def get_task_by_id(task_id):
         raise e
 
 # Function to delete a task using the database function
-def delete_task(task_id):
+def delete_task_by_id(task_id):
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
