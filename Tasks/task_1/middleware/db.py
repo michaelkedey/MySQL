@@ -1,15 +1,15 @@
 import psycopg2
 from psycopg2.extras import RealDictCursor
-
+import os
 
 # Database connection details
 def get_db_connection():
     try:
         conn = psycopg2.connect(
-            host="academy.iridislabs.dev",
-            database="tmapp_db",  # Replace with your database name
-            user="cobbina",  # Replace with your PostgreSQL username
-            password="cobby12345",  # Replace with your PostgreSQL password
+            host=os.getenv("DB_HOST"),
+            database=os.getenv("DB_DATABASE"), # Replace with your database name
+            user=os.getenv("DB_USER"),  # Replace with your PostgreSQL username
+            password=os.getenv("DB_PASSWORD"),  # Replace with your PostgreSQL password
         )
         return conn
     except psycopg2.DatabaseError as e:
