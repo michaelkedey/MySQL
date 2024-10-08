@@ -1,5 +1,5 @@
 from flask import Flask, abort, jsonify, request
-from db import update_task, fetch_all_tasks, insert_task, get_task_by_id, delete_task_by_id
+from db import update_tasks, fetch_all_tasks, insert_task, get_task_by_id, delete_task_by_id
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -17,7 +17,7 @@ def update_task(id):
         priority = data.get('priority', 1)
         due_date = data.get('due_date')
 
-        update_task(id, title, description, status, priority, due_date)  # Call PostgreSQL update function
+        update_tasks(id, title, description, status, priority, due_date)  # Call PostgreSQL update function
         return jsonify({'message': 'Task updated successfully'})
     except Exception as e:
         return jsonify({'error ':str(e)}), 400

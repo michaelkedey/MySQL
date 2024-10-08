@@ -56,7 +56,7 @@ def insert_task(title, description, status, priority, due_date):
 #     except psycopg2.Error as e:
 #         raise e
 
-def update_task(task_id, title, description, status, priority, due_date):
+def update_tasks(task_id, title, description, status, priority, due_date):
     conn = get_db_connection()
     try:
         cursor = conn.cursor()
