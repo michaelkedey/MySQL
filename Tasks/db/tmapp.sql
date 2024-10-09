@@ -1,7 +1,7 @@
 --Drop and create the database
-DROP DATABASE IF EXISTS tmapp_db2;
-CREATE DATABASE tmapp_db2;
-\c tmapp_db2;
+DROP DATABASE IF EXISTS tmapp_db;
+CREATE DATABASE tmapp_db;
+\c tmapp_db;
 
 
 --Create tasks table
