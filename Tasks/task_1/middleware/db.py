@@ -1,49 +1,75 @@
 import psycopg2
 from psycopg2.extras import RealDictCursor
-
+import os
 
 # Database connection details
 def get_db_connection():
     try:
         conn = psycopg2.connect(
-            host="localhost",
-            database="taskdb",  # Replace with your database name
-            user="username",  # Replace with your PostgreSQL username
-            password="password",  # Replace with your PostgreSQL password
+            host=os.getenv("DB_HOST"),
+            database=os.getenv("DB_DATABASE"), # Replace with your database name
+            user=os.getenv("DB_USER"),  # Replace with your PostgreSQL username
+            password=os.getenv("DB_PASSWORD"),  # Replace with your PostgreSQL password
         )
         return conn
     except psycopg2.DatabaseError as e:
         raise e
         
 
-def insert_task(title, description):
+def insert_task(title, description, status, priority, due_date):
     conn = get_db_connection()
     if not conn:
         print('Failed to connect to the database')
     try:
         cursor = conn.cursor()
-        cursor.execute("CALL insert_task(%s, %s);", (title, description))  # Calling the stored procedure
+        cursor.execute(
+            "SELECT insert_task(%s, %s, %s, %s, %s);",
+            (title, description, status, priority, due_date)
+        )
         conn.commit()
         cursor.close()
         conn.close()
     except psycopg2.Error as e:
-        raise e    
+        raise e   
+# def insert_task(title, description, status, priority, due_date):
+#     conn = get_db_connection()
+#     cursor = conn.cursor()
+#     cursor.execute(
+#         "SELECT insert_task(%s, %s, %s, %s, %s);",
+#         (title, description, status, priority, due_date)
+#     )
+#     conn.commit()
+#     cursor.close()
+#     conn.close()
 
+# def update_task(task_id, title, description, done):
+#     conn = get_db_connection()
+#     try:
+#         cursor = conn.cursor()
+#         cursor.execute(
+#             "UPDATE tasks SET title = %s, description = %s, done = %s WHERE id = %s;",
+#             (title, description, done, task_id),
+#         )
+#         conn.commit()
+#         cursor.close()
+#         conn.close()
+#     except psycopg2.Error as e:
+#         raise e
 
-def update_task(task_id, title, description, done):
+def update_tasks(task_id, title, description, status, priority, due_date):
     conn = get_db_connection()
     try:
         cursor = conn.cursor()
         cursor.execute(
-            "UPDATE tasks SET title = %s, description = %s, done = %s WHERE id = %s;",
-            (title, description, done, task_id),
+            "SELECT update_task(%s, %s, %s, %s, %s, %s);",
+            (task_id, title, description, status, priority, due_date)
         )
         conn.commit()
         cursor.close()
         conn.close()
     except psycopg2.Error as e:
         raise e
-
+    
 def fetch_all_tasks():
 
     try:
@@ -59,14 +85,30 @@ def fetch_all_tasks():
         raise e
 
 
-def delete_completed_tasks():
-    try: 
+def get_task_by_id(task_id):
+
+    try:
         conn = get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute("CALL delete_completed_tasks();")
-        conn.commit()  # Commit the transaction
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+        
+        # Directly call the PostgreSQL function using the task_id
+        cursor.execute("SELECT * FROM get_task_by_id(%d);" % task_id)
+        
+        task = cursor.fetchone()  # Fetch a single task by its ID
         cursor.close()
         conn.close()
-    except Exception as e:
+        return task
+    except psycopg2.Error as e:
         raise e
-    
+
+# Function to delete a task using the database function
+def delete_task_by_id(task_id):
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT delete_task(%s);", (task_id,))
+        conn.commit()
+        cursor.close()
+        conn.close()
+    except psycopg2.Error as e:
+        raise e
